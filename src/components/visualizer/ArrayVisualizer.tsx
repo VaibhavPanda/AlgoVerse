@@ -18,11 +18,16 @@ export const ArrayVisualizer = ({
   maxValue,
 }: ArrayVisualizerProps) => {
   const getBarColor = (index: number) => {
-    if (sorted.includes(index)) return 'bg-green-500';
+    // 🟩 Sorted elements — green
+    if (sorted.includes(index)) return 'bg-green-400';
+    // 🔴 Swapping elements — red
     if (swapping.includes(index)) return 'bg-red-500';
-    if (comparing.includes(index)) return 'bg-yellow-500';
-    if (active.includes(index)) return 'bg-purple-500';
-    return 'bg-primary';
+    // 🟠 Comparing elements — orange
+    if (comparing.includes(index)) return 'bg-orange-400';
+    // 🟣 Active (being processed) — purple
+    if (active.includes(index)) return 'bg-purple-400';
+    // 🔵 Default unsorted bars — cyan
+    return 'bg-cyan-400';
   };
 
   const getBarHeight = (value: number) => {
@@ -30,25 +35,28 @@ export const ArrayVisualizer = ({
   };
 
   return (
-    <div className="flex h-[400px] items-end justify-center gap-1 rounded-lg border bg-card p-4">
-      {array.map((value, index) => (
-        <div
-          key={index}
-          className="flex-1 min-w-[2px] max-w-[40px] relative group"
-        >
+    <div className="flex h-[400px] w-full items-end justify-center bg-neutral-900 overflow-hidden">
+      <div className="flex w-full items-end justify-center">
+        {array.map((value, index) => (
           <div
-            className={cn(
-              'w-full rounded-t transition-all duration-300',
-              getBarColor(index)
-            )}
-            style={{ height: `${getBarHeight(value)}%` }}
+            key={index}
+            className="relative"
+            style={{
+              width: `${100 / array.length}%`, // Evenly spaced bars across the container
+            }}
           >
-            <div className="absolute -top-6 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-background/90 px-2 py-1 rounded text-xs whitespace-nowrap">
-              {value}
-            </div>
+            <div
+              className={cn(
+                'transition-all duration-300 ease-in-out rounded-t-sm',
+                getBarColor(index)
+              )}
+              style={{
+                height: `${getBarHeight(value)}%`,
+              }}
+            />
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 };
