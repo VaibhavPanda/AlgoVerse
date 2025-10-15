@@ -47,7 +47,7 @@ export const BubbleSort = ({ initialArray, initialSize = 30 }: BubbleSortProps) 
           array: [...tempArr],
           comparing: [j, j + 1],
           swapping: [],
-          sorted: Array.from({ length: n - i }, (_, k) => n - 1 - k),
+          sorted: Array.from({ length: i }, (_, k) => n - 1 - k),
           description: `Comparing ${tempArr[j]} and ${tempArr[j + 1]}`,
         });
 
@@ -58,7 +58,7 @@ export const BubbleSort = ({ initialArray, initialSize = 30 }: BubbleSortProps) 
             array: [...tempArr],
             comparing: [],
             swapping: [j, j + 1],
-            sorted: Array.from({ length: n - i }, (_, k) => n - 1 - k),
+            sorted: Array.from({ length: i }, (_, k) => n - 1 - k),
             description: `Swapping ${tempArr[j + 1]} and ${tempArr[j]}`,
           });
         }
@@ -135,24 +135,28 @@ export const BubbleSort = ({ initialArray, initialSize = 30 }: BubbleSortProps) 
     description: '',
   };
 
-  const maxValue = Math.max(...array);
+  const maxValue = Math.max(...array, 1);
 
   return (
     <div className="space-y-6">
-      <div className="rounded-lg border bg-card p-4">
-        <p className="mb-4 text-center text-sm text-muted-foreground">
-          {currentStepData.description}
-        </p>
-        <ArrayVisualizer
-          array={currentStepData.array}
-          comparing={currentStepData.comparing}
-          swapping={currentStepData.swapping}
-          sorted={currentStepData.sorted}
-          active={currentStepData.active}
-          maxValue={maxValue}
-        />
+      {/* Visualization Box */}
+      <div className="rounded-lg border bg-card p-4 flex flex-col">
+        <div className="text-center text-sm text-muted-foreground mb-2">
+          {currentStepData.description || 'Sorting...'}
+        </div>
+        <div className="relative flex-1 bg-neutral-900 rounded-md overflow-hidden flex items-end justify-center h-[400px]">
+          <ArrayVisualizer
+            array={currentStepData.array}
+            comparing={currentStepData.comparing}
+            swapping={currentStepData.swapping}
+            sorted={currentStepData.sorted}
+            active={currentStepData.active}
+            maxValue={maxValue}
+          />
+        </div>
       </div>
 
+      {/* Controls + Stats */}
       <div className="grid gap-6 lg:grid-cols-3">
         <div className="lg:col-span-2 space-y-6">
           <ControlPanel
