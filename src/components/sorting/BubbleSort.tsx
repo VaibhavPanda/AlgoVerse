@@ -90,6 +90,7 @@ export const BubbleSort = ({ initialArray, initialSize = 30 }: BubbleSortProps) 
 
   useEffect(() => {
     reset();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -135,16 +136,19 @@ export const BubbleSort = ({ initialArray, initialSize = 30 }: BubbleSortProps) 
     description: '',
   };
 
-  const maxValue = Math.max(...array, 1);
+  // Ensure safe fallback for empty arrays
+  const maxValue = array.length ? Math.max(...array) : 1;
 
   return (
     <div className="space-y-6">
       {/* Visualization Box */}
       <div className="rounded-lg border bg-card p-4 flex flex-col">
-        <div className="text-center text-sm text-muted-foreground mb-2">
+        <div className="text-center text-sm text-muted-foreground mb-3">
           {currentStepData.description || 'Sorting...'}
         </div>
-        <div className="relative flex-1 bg-neutral-900 rounded-md overflow-hidden flex items-end justify-center h-[400px]">
+
+        {/* This container defines the visualizer area. Keep a fixed height so inner visualizer can fill it. */}
+        <div className="relative w-full h-[420px] bg-neutral-900 rounded-md border border-neutral-800 overflow-hidden flex items-end justify-center">
           <ArrayVisualizer
             array={currentStepData.array}
             comparing={currentStepData.comparing}
@@ -171,8 +175,9 @@ export const BubbleSort = ({ initialArray, initialSize = 30 }: BubbleSortProps) 
             onStepForward={handleStepForward}
             onSpeedChange={(value) => setSpeed(value[0])}
             onArraySizeChange={(value) => {
-              setArraySize(value[0]);
-              const newArray = generateRandomArray(value[0]);
+              const newSize = value[0];
+              setArraySize(newSize);
+              const newArray = generateRandomArray(newSize);
               setArray(newArray);
               const newSteps = generateSteps(newArray);
               setSteps(newSteps);
