@@ -1,7 +1,6 @@
-# 🌌 AlgoVerse — Algorithm Visualizer by [Vaibhav Panda](https://vaibhavpanda.github.io/sortify/)
+# 🌌 AlgoVerse — Algorithm Visualizer by [Vaibhav Panda]((https://algo-verse-mu.vercel.app/))
 
 ![Status](https://img.shields.io/badge/status-active-brightgreen?style=for-the-badge)
-![License](https://img.shields.io/badge/license-MIT-blue?style=for-the-badge)
 ![Tech](https://img.shields.io/badge/stack-React%20+%20TypeScript%20+%20CSS-blueviolet?style=for-the-badge)
 ![Contributions](https://img.shields.io/badge/contributions-welcome-orange?style=for-the-badge)
 
@@ -152,14 +151,8 @@ If you’d like to add new algorithms, optimize animations, or enhance the UI, f
 
 ---
 
-## 📄 License
-
-Licensed under the **MIT License** — free for educational and personal use.
-
----
-
 ## 🌐 Links
 
-🔗 **Live Demo:** [vaibhavpanda.github.io/sortify/](https://vaibhavpanda.github.io/sortify/)  
+🔗 **Live Demo:** [vaibhavpanda.github.io/sortify/]([https://vaibhavpanda.github.io/sortify/](https://algo-verse-mu.vercel.app/))  
 🐙 **GitHub:** [github.com/vaibhavpanda](https://github.com/vaibhavpanda)  
-💬 **Contact:** vaibhavpanda.dev@gmail.com
+💬 **Contact:** vaibhavpanda2004@gmail.com
