@@ -13,8 +13,8 @@ export const Header = () => {
             <Code2 className="h-6 w-6 text-white" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-              Sortify
+            <h1 className="text-2xl font-bold bg-gradient-primary bg-clip-text">
+              AlgoVerse
             </h1>
             <p className="text-xs text-muted-foreground">Algorithm Visualizer</p>
           </div>
