@@ -9,6 +9,9 @@ interface ArrayVisualizerProps {
   maxValue: number;
 }
 
+// Define the maximum pixel height for the bars, matching the container height from the JSX
+const MAX_BAR_HEIGHT_PX = 400;
+
 export const ArrayVisualizer = ({
   array,
   comparing = [],
@@ -17,67 +20,46 @@ export const ArrayVisualizer = ({
   active = [],
   maxValue,
 }: ArrayVisualizerProps) => {
-  // Choose classes for each state. Adjust to your theme if needed.
   const getBarColor = (index: number) => {
-    if (sorted.includes(index)) return 'bg-green-500/90';
-    if (swapping.includes(index)) return 'bg-red-500/95';
-    if (comparing.includes(index)) return 'bg-orange-400/95';
-    if (active.includes(index)) return 'bg-purple-500/90';
-    return 'bg-cyan-400/90';
+    if (sorted.includes(index)) return 'bg-green-500';
+    if (swapping.includes(index)) return 'bg-red-500';
+    if (comparing.includes(index)) return 'bg-yellow-500';
+    if (active.includes(index)) return 'bg-purple-500';
+    return 'bg-blue-500';
   };
 
   const getBarHeight = (value: number) => {
-    // clamp to avoid 0 heights
-    const pct = (value / Math.max(1, maxValue)) * 100;
-    return Math.max(3, pct); // at least 3% so tiny values are visible
+    const safeMaxValue = maxValue > 0 ? maxValue : 1;
+    
+    // Calculate height directly in PIXELS
+    const heightPx = (value / safeMaxValue) * MAX_BAR_HEIGHT_PX;
+
+    // Guaranteed minimum height of 2 pixels for visibility, even if value is very small.
+    return Math.max(heightPx, 2); 
   };
 
-  if (!array || array.length === 0) {
-    return (
-      <div className="flex items-center justify-center w-full h-full text-sm text-muted-foreground">
-        No data to display
-      </div>
-    );
-  }
-
   return (
-    // Outer fills the parent visualizer area (parent sets fixed height)
-    <div className="w-full h-full flex items-end justify-center px-2">
-      <div
-        className="relative flex items-end justify-between w-full h-full gap-1"
-        style={{ alignItems: 'end' }}
-      >
-        {array.map((value, index) => {
-          const heightPct = getBarHeight(value);
-          return (
-            <div
-              key={index}
-              className="flex-1 flex items-end justify-center"
-              style={{
-                // Keep a minimum width so bars are visible on small arrays, but scale with count
-                minWidth: '4px',
-                maxWidth: `${100 / Math.max(1, array.length)}%`,
-              }}
-            >
-              <div
-                className={cn(
-                  'w-full rounded-t-md transition-all duration-300 ease-out transform origin-bottom',
-                  getBarColor(index)
-                )}
-                style={{
-                  height: `${heightPct}%`,
-                  boxShadow: swapping.includes(index)
-                    ? '0 0 12px rgba(239,68,68,0.45)'
-                    : comparing.includes(index)
-                    ? '0 0 10px rgba(249,115,22,0.28)'
-                    : '',
-                }}
-                title={`index: ${index} — value: ${value}`}
-              />
+    // Reverting to functional container (removed temporary border/gap/padding)
+    <div className="flex h-[400px] items-end justify-center gap-1 w-full p-4"> 
+      {array.map((value, index) => (
+        <div
+          key={index}
+          // Reverting to the dynamic width classes
+          className="flex-1 min-w-[2px] max-w-[40px] relative group"
+        >
+          <div
+            className={cn(
+              'w-full rounded-t transition-all duration-300',
+              getBarColor(index)
+            )}
+            style={{ height: `${getBarHeight(value)}px` }} 
+          >
+            <div className="absolute -top-6 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-background/90 px-2 py-1 rounded text-xs whitespace-nowrap">
+              {value}
             </div>
-          );
-        })}
-      </div>
+          </div>
+        </div>
+      ))}
     </div>
   );
 };
