@@ -1,4 +1,4 @@
-import { Github, Mail, Code2 } from 'lucide-react';
+import { Github, Mail, Linkedin , Code2 } from 'lucide-react';
 import { Button } from './ui/button';
 
 export const Footer = () => {
@@ -11,7 +11,7 @@ export const Footer = () => {
               <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-primary">
                 <Code2 className="h-5 w-5 text-white" />
               </div>
-              <span className="text-xl font-bold">Sortify</span>
+              <span className="text-xl font-bold">AlgoVerse</span>
             </div>
             <p className="text-sm text-muted-foreground">
               Interactive algorithm visualizer for learning and understanding computer science concepts.
@@ -27,12 +27,12 @@ export const Footer = () => {
                 </a>
               </li>
               <li>
-                <a href="https://github.com/vaibhavpanda/sortify" className="hover:text-foreground transition-colors" target="_blank" rel="noopener noreferrer">
-                  Documentation
+                <a href="https://github.com/VaibhavPanda/AlgoVerse" className="hover:text-foreground transition-colors" target="_blank" rel="noopener noreferrer">
+                  Repositary 
                 </a>
               </li>
               <li>
-                <a href="https://github.com/vaibhavpanda/sortify" className="hover:text-foreground transition-colors" target="_blank" rel="noopener noreferrer">
+                <a href="https://github.com/VaibhavPanda/AlgoVerse" className="hover:text-foreground transition-colors" target="_blank" rel="noopener noreferrer">
                   About
                 </a>
               </li>
@@ -40,24 +40,33 @@ export const Footer = () => {
           </div>
 
           <div>
-            <h3 className="mb-4 font-semibold">Connect</h3>
+            <h3 className="mb-4 font-semibold">Contact Me</h3>
             <div className="flex gap-2">
               <Button variant="outline" size="icon" asChild>
-                <a href="https://github.com/vaibhavpanda/sortify" target="_blank" rel="noopener noreferrer">
+                <a href="https://github.com/VaibhavPanda/AlgoVerse" target="_blank" rel="noopener noreferrer">
                   <Github className="h-4 w-4" />
                 </a>
               </Button>
               <Button variant="outline" size="icon" asChild>
-                <a href="mailto:contact@sortify.dev">
+                <a href="mailto:vaibhavpanda2004@gmail.com">
                   <Mail className="h-4 w-4" />
                 </a>
               </Button>
+              <Button variant="outline" size="icon" asChild>
+  <a
+    href="https://www.linkedin.com/in/vaibhav-panda-310704255/"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    <Linkedin className="h-4 w-4" />
+  </a>
+</Button>
             </div>
           </div>
         </div>
 
         <div className="mt-8 border-t pt-8 text-center text-sm text-muted-foreground">
-          <p>© {new Date().getFullYear()} Sortify. Built with React, TypeScript, and Tailwind CSS.</p>
+          <p>© {new Date().getFullYear()} AlgoVerse. Built with React, TypeScript, and Tailwind CSS.</p>
         </div>
       </div>
     </footer>
