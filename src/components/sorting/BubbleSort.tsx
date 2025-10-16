@@ -1,3 +1,5 @@
+// File: BubbleSort.tsx
+
 import { useState, useEffect, useCallback } from 'react';
 import { VisualizationStep } from '@/types/algorithm';
 import { ArrayVisualizer } from '../visualizer/ArrayVisualizer';
@@ -37,6 +39,7 @@ export const BubbleSort = ({ initialArray, initialSize = 30 }: BubbleSortProps) 
       comparing: [],
       swapping: [],
       sorted: [],
+      active: [],
       description: 'Starting Bubble Sort',
     });
 
@@ -48,6 +51,7 @@ export const BubbleSort = ({ initialArray, initialSize = 30 }: BubbleSortProps) 
           comparing: [j, j + 1],
           swapping: [],
           sorted: Array.from({ length: i }, (_, k) => n - 1 - k),
+          active: [],
           description: `Comparing ${tempArr[j]} and ${tempArr[j + 1]}`,
         });
 
@@ -59,10 +63,19 @@ export const BubbleSort = ({ initialArray, initialSize = 30 }: BubbleSortProps) 
             comparing: [],
             swapping: [j, j + 1],
             sorted: Array.from({ length: i }, (_, k) => n - 1 - k),
+            active: [],
             description: `Swapping ${tempArr[j + 1]} and ${tempArr[j]}`,
           });
         }
       }
+      steps.push({
+        array: [...tempArr],
+        comparing: [],
+        swapping: [],
+        sorted: Array.from({ length: i + 1 }, (_, k) => n - 1 - k),
+        active: [],
+        description: `Element ${tempArr[n - 1 - i]} is now in place`,
+      });
     }
 
     steps.push({
@@ -70,6 +83,7 @@ export const BubbleSort = ({ initialArray, initialSize = 30 }: BubbleSortProps) 
       comparing: [],
       swapping: [],
       sorted: Array.from({ length: n }, (_, k) => k),
+      active: [],
       description: 'Array is sorted!',
     });
 
@@ -90,8 +104,7 @@ export const BubbleSort = ({ initialArray, initialSize = 30 }: BubbleSortProps) 
 
   useEffect(() => {
     reset();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [reset]);
 
   useEffect(() => {
     if (!isPlaying) return;
@@ -133,75 +146,87 @@ export const BubbleSort = ({ initialArray, initialSize = 30 }: BubbleSortProps) 
     comparing: [],
     swapping: [],
     sorted: [],
+    active: [],
     description: '',
   };
 
-  // Ensure safe fallback for empty arrays
-  const maxValue = array.length ? Math.max(...array) : 1;
+  const maxValue = array.length > 0 ? Math.max(...array) : 100;
 
   return (
-    <div className="space-y-6">
-      {/* Visualization Box */}
-      <div className="rounded-lg border bg-card p-4 flex flex-col">
-        <div className="text-center text-sm text-muted-foreground mb-3">
-          {currentStepData.description || 'Sorting...'}
-        </div>
+    <div className="flex flex-col h-full">
 
-        {/* This container defines the visualizer area. Keep a fixed height so inner visualizer can fill it. */}
-        <div className="relative w-full h-[420px] bg-neutral-900 rounded-md border border-neutral-800 overflow-hidden flex items-end justify-center">
-          <ArrayVisualizer
-            array={currentStepData.array}
-            comparing={currentStepData.comparing}
-            swapping={currentStepData.swapping}
-            sorted={currentStepData.sorted}
-            active={currentStepData.active}
-            maxValue={maxValue}
-          />
-        </div>
+      {/* REMOVED: Redundant Visualization Header removed here. */}
+
+      {/* Main Visualization Area (The large black/dark space) */}
+      <div className="relative flex flex-col items-center justify-end bg-gray-950 p-6 shadow-xl w-full min-h-[500px] h-[60vh]">
+          
+          {/* Comparison/Description Text - Now absolute positioned at the top */}
+          <p className="absolute top-10 text-xl font-mono text-white">
+              {currentStepData.description || 'Ready to start sorting.'}
+          </p>
+
+          {/* Array Visualizer pushed to the bottom by justify-end */}
+          <div className="w-full max-w-5xl mb-4">
+              <ArrayVisualizer
+                  array={currentStepData.array}
+                  comparing={currentStepData.comparing}
+                  swapping={currentStepData.swapping}
+                  sorted={currentStepData.sorted}
+                  active={currentStepData.active}
+                  maxValue={maxValue}
+              />
+          </div>
       </div>
 
-      {/* Controls + Stats */}
-      <div className="grid gap-6 lg:grid-cols-3">
-        <div className="lg:col-span-2 space-y-6">
-          <ControlPanel
-            isPlaying={isPlaying}
-            speed={speed}
-            arraySize={arraySize}
-            currentStep={currentStep}
-            totalSteps={steps.length}
-            onPlayPause={handlePlayPause}
-            onReset={reset}
-            onStepBack={handleStepBack}
-            onStepForward={handleStepForward}
-            onSpeedChange={(value) => setSpeed(value[0])}
-            onArraySizeChange={(value) => {
-              const newSize = value[0];
-              setArraySize(newSize);
-              const newArray = generateRandomArray(newSize);
-              setArray(newArray);
-              const newSteps = generateSteps(newArray);
-              setSteps(newSteps);
-              setCurrentStep(0);
-            }}
-          />
+      {/* Bottom Panel: Controls and Stats */}
+      <div className="p-4">
+        <div className="grid gap-6 lg:grid-cols-3">
+          
+          <div className="lg:col-span-2 space-y-6">
+            <ControlPanel
+              isPlaying={isPlaying}
+              speed={speed}
+              arraySize={arraySize}
+              currentStep={currentStep}
+              totalSteps={steps.length}
+              onPlayPause={handlePlayPause}
+              onReset={reset}
+              onStepBack={handleStepBack}
+              onStepForward={handleStepForward}
+              onSpeedChange={(value) => setSpeed(value[0])}
+              onArraySizeChange={(value) => {
+                setArraySize(value[0]);
+                const newArray = generateRandomArray(value[0]);
+                setArray(newArray);
+                const newSteps = generateSteps(newArray);
+                setSteps(newSteps);
+                setCurrentStep(0);
+              }}
+            />
 
-          <CodeViewer
-            pseudocode={[
-              'for i from 0 to n-1:',
-              '  for j from 0 to n-i-1:',
-              '    if arr[j] > arr[j+1]:',
-              '      swap arr[j] and arr[j+1]',
-            ]}
-          />
-        </div>
+            <CodeViewer
+              pseudocode={[
+                'for i from 0 to n-1:',
+                '  for j from 0 to n-i-1:',
+                '    if arr[j] > arr[j+1]:',
+                '      swap arr[j] and arr[j+1]',
+              ]}
+              currentLine={
+                currentStepData.description.includes('Comparing') ? 2 :
+                currentStepData.description.includes('Swapping') ? 3 :
+                -1
+              }
+            />
+          </div>
 
-        <div>
-          <StatsPanel
-            comparisons={comparisons}
-            swaps={swaps}
-            timeComplexity="O(n²)"
-            spaceComplexity="O(1)"
-          />
+          <div>
+            <StatsPanel
+              comparisons={comparisons}
+              swaps={swaps}
+              timeComplexity="O(n²)"
+              spaceComplexity="O(1)"
+            />
+          </div>
         </div>
       </div>
     </div>
