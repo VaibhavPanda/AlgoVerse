@@ -54,7 +54,7 @@ export const VisualizerModal = ({
         return <BFS />;
       case 'dfs':
         return <DFS />;
-      case 'dijkstra'
+      case 'dijkstra':
           return <Dijkstra />
       // Recursion Algorithms
       case 'fibonacci':
