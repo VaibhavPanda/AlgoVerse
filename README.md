@@ -1,8 +1,7 @@
 # 🌌 AlgoVerse — Algorithm Visualizer by [Vaibhav Panda]((https://algo-verse-mu.vercel.app/))
 
 ![Status](https://img.shields.io/badge/status-active-brightgreen?style=for-the-badge)
-![Tech](https://img.shields.io/badge/stack-React%20+%20TypeScript%20+%20CSS-blueviolet?style=for-the-badge)
-![Contributions](https://img.shields.io/badge/contributions-welcome-orange?style=for-the-badge)
+![Tech Stack](https://img.shields.io/badge/stack-React%20+%20TypeScript%20+%20CSS-blueviolet?style=for-the-badge)
 
 ---
 
