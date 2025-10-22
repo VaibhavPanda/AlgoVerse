@@ -18,6 +18,7 @@ import { Fibonacci } from './recursion/Fibonacci';
 import { BinarySearch } from './recursion/BinarySearch';
 import { SieveOfEratosthenes } from './math/SieveOfEratosthenes';
 import { Badge } from './ui/badge';
+import {Dijkstra} from './graph/Dijkstra';
 
 interface VisualizerModalProps {
   algorithm: Algorithm | null;
@@ -53,7 +54,8 @@ export const VisualizerModal = ({
         return <BFS />;
       case 'dfs':
         return <DFS />;
-      
+      case 'dijkstra'
+          return <Dijkstra />
       // Recursion Algorithms
       case 'fibonacci':
         return <Fibonacci />;
